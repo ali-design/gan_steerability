@@ -1,0 +1,273 @@
+7,n01514668,cock,16,bird
+8,n01514859,hen,16,bird
+9,n01518878,ostrich,16,bird
+10,n01530575,brambling,16,bird
+11,n01531178,goldfinch,16,bird
+12,n01532829,house finch,16,bird
+13,n01534433,junco,16,bird
+14,n01537544,indigo bunting,16,bird
+15,n01558993,robin,16,bird
+16,n01560419,bulbul,16,bird
+17,n01580077,jay,16,bird
+18,n01582220,magpie,16,bird
+19,n01592084,chickadee,16,bird
+20,n01601694,water ouzel,16,bird
+21,n01608432,kite,16,bird
+22,n01614925,bald eagle,16,bird
+23,n01616318,vulture,16,bird
+24,n01622779,great grey owl,16,bird
+80,n01795545,black grouse,16,bird
+81,n01796340,ptarmigan,16,bird
+82,n01797886,ruffed grouse,16,bird
+83,n01798484,prairie chicken,16,bird
+84,n01806143,peacock,16,bird
+85,n01806567,quail,16,bird
+86,n01807496,partridge,16,bird
+87,n01817953,African grey,16,bird
+88,n01818515,macaw,16,bird
+89,n01819313,sulphur-crested cockatoo,16,bird
+90,n01820546,lorikeet,16,bird
+91,n01824575,coucal,16,bird
+92,n01828970,bee eater,16,bird
+93,n01829413,hornbill,16,bird
+94,n01833805,hummingbird,16,bird
+95,n01843065,jacamar,16,bird
+96,n01843383,toucan,16,bird
+97,n01847000,drake,16,bird
+98,n01855032,red-breasted merganser,16,bird
+99,n01855672,goose,16,bird
+100,n01860187,black swan,16,bird
+127,n02002556,white stork,16,bird
+128,n02002724,black stork,16,bird
+129,n02006656,spoonbill,16,bird
+130,n02007558,flamingo,16,bird
+131,n02009229,little blue heron,16,bird
+132,n02009912,American egret,16,bird
+133,n02011460,bittern,16,bird
+134,n02012849,crane,16,bird
+135,n02013706,limpkin,16,bird
+136,n02017213,European gallinule,16,bird
+137,n02018207,American coot,16,bird
+138,n02018795,bustard,16,bird
+139,n02025239,ruddy turnstone,16,bird
+140,n02027492,red-backed sandpiper,16,bird
+141,n02028035,redshank,16,bird
+142,n02033041,dowitcher,16,bird
+143,n02037110,oystercatcher,16,bird
+144,n02051845,pelican,16,bird
+145,n02056570,king penguin,16,bird
+146,n02058221,albatross,16,bird
+151,n02085620,Chihuahua,18,dog
+152,n02085782,Japanese spaniel,18,dog
+153,n02085936,Maltese dog,18,dog
+154,n02086079,Pekinese,18,dog
+155,n02086240,Shih-Tzu,18,dog
+156,n02086646,Blenheim spaniel,18,dog
+157,n02086910,papillon,18,dog
+158,n02087046,toy terrier,18,dog
+159,n02087394,Rhodesian ridgeback,18,dog
+160,n02088094,Afghan hound,18,dog
+161,n02088238,basset,18,dog
+162,n02088364,beagle,18,dog
+163,n02088466,bloodhound,18,dog
+164,n02088632,bluetick,18,dog
+165,n02089078,black-and-tan coonhound,18,dog
+166,n02089867,Walker hound,18,dog
+167,n02089973,English foxhound,18,dog
+168,n02090379,redbone,18,dog
+169,n02090622,borzoi,18,dog
+170,n02090721,Irish wolfhound,18,dog
+171,n02091032,Italian greyhound,18,dog
+172,n02091134,whippet,18,dog
+173,n02091244,Ibizan hound,18,dog
+174,n02091467,Norwegian elkhound,18,dog
+175,n02091635,otterhound,18,dog
+176,n02091831,Saluki,18,dog
+177,n02092002,Scottish deerhound,18,dog
+178,n02092339,Weimaraner,18,dog
+179,n02093256,Staffordshire bullterrier,18,dog
+180,n02093428,American Staffordshire terrier,18,dog
+181,n02093647,Bedlington terrier,18,dog
+182,n02093754,Border terrier,18,dog
+183,n02093859,Kerry blue terrier,18,dog
+184,n02093991,Irish terrier,18,dog
+185,n02094114,Norfolk terrier,18,dog
+186,n02094258,Norwich terrier,18,dog
+187,n02094433,Yorkshire terrier,18,dog
+188,n02095314,wire-haired fox terrier,18,dog
+189,n02095570,Lakeland terrier,18,dog
+190,n02095889,Sealyham terrier,18,dog
+191,n02096051,Airedale,18,dog
+192,n02096177,cairn,18,dog
+193,n02096294,Australian terrier,18,dog
+194,n02096437,Dandie Dinmont,18,dog
+195,n02096585,Boston bull,18,dog
+196,n02097047,miniature schnauzer,18,dog
+197,n02097130,giant schnauzer,18,dog
+198,n02097209,standard schnauzer,18,dog
+199,n02097298,Scotch terrier,18,dog
+200,n02097474,Tibetan terrier,18,dog
+201,n02097658,silky terrier,18,dog
+202,n02098105,soft-coated wheaten terrier,18,dog
+203,n02098286,West Highland white terrier,18,dog
+204,n02098413,Lhasa,18,dog
+205,n02099267,flat-coated retriever,18,dog
+206,n02099429,curly-coated retriever,18,dog
+207,n02099601,golden retriever,18,dog
+208,n02099712,Labrador retriever,18,dog
+209,n02099849,Chesapeake Bay retriever,18,dog
+210,n02100236,German short-haired pointer,18,dog
+211,n02100583,vizsla,18,dog
+212,n02100735,English setter,18,dog
+213,n02100877,Irish setter,18,dog
+214,n02101006,Gordon setter,18,dog
+215,n02101388,Brittany spaniel,18,dog
+216,n02101556,clumber,18,dog
+217,n02102040,English springer,18,dog
+218,n02102177,Welsh springer spaniel,18,dog
+219,n02102318,cocker spaniel,18,dog
+220,n02102480,Sussex spaniel,18,dog
+221,n02102973,Irish water spaniel,18,dog
+222,n02104029,kuvasz,18,dog
+223,n02104365,schipperke,18,dog
+224,n02105056,groenendael,18,dog
+225,n02105162,malinois,18,dog
+226,n02105251,briard,18,dog
+227,n02105412,kelpie,18,dog
+228,n02105505,komondor,18,dog
+229,n02105641,Old English sheepdog,18,dog
+230,n02105855,Shetland sheepdog,18,dog
+231,n02106030,collie,18,dog
+232,n02106166,Border collie,18,dog
+233,n02106382,Bouvier des Flandres,18,dog
+234,n02106550,Rottweiler,18,dog
+235,n02106662,German shepherd,18,dog
+236,n02107142,Doberman,18,dog
+237,n02107312,miniature pinscher,18,dog
+238,n02107574,Greater Swiss Mountain dog,18,dog
+239,n02107683,Bernese mountain dog,18,dog
+240,n02107908,Appenzeller,18,dog
+241,n02108000,EntleBucher,18,dog
+242,n02108089,boxer,18,dog
+243,n02108422,bull mastiff,18,dog
+244,n02108551,Tibetan mastiff,18,dog
+245,n02108915,French bulldog,18,dog
+246,n02109047,Great Dane,18,dog
+247,n02109525,Saint Bernard,18,dog
+248,n02109961,Eskimo dog,18,dog
+249,n02110063,malamute,18,dog
+250,n02110185,Siberian husky,18,dog
+251,n02110341,dalmatian,18,dog
+252,n02110627,affenpinscher,18,dog
+253,n02110806,basenji,18,dog
+254,n02110958,pug,18,dog
+255,n02111129,Leonberg,18,dog
+256,n02111277,Newfoundland,18,dog
+257,n02111500,Great Pyrenees,18,dog
+258,n02111889,Samoyed,18,dog
+259,n02112018,Pomeranian,18,dog
+260,n02112137,chow,18,dog
+261,n02112350,keeshond,18,dog
+262,n02112706,Brabancon griffon,18,dog
+263,n02113023,Pembroke,18,dog
+264,n02113186,Cardigan,18,dog
+265,n02113624,toy poodle,18,dog
+266,n02113712,miniature poodle,18,dog
+267,n02113799,standard poodle,18,dog
+268,n02113978,Mexican hairless,18,dog
+281,n02123045,tabby,17,cat
+282,n02123159,tiger cat,17,cat
+283,n02123394,Persian cat,17,cat
+284,n02123597,Siamese cat,17,cat
+285,n02124075,Egyptian cat,17,cat
+286,n02125311,cougar,17,cat
+287,n02127052,lynx,17,cat
+294,n02132136,brown bear,23,bear
+295,n02133161,American black bear,23,bear
+296,n02134084,ice bear,23,bear
+297,n02134418,sloth bear,23,bear
+339,n02389026,sorrel,19,horse
+340,n02391049,zebra,24,zebra
+348,n02412080,ram,20,sheep
+385,n02504013,Indian elephant,22,elephant
+386,n02504458,African elephant,22,elephant
+404,n02690373,airliner,5,airplane
+407,n02701002,ambulance,3,car
+409,n02708093,analog clock,85,clock
+414,n02769748,backpack,27,backpack
+423,n02791124,barber chair,62,chair
+436,n02814533,beach wagon,3,car
+440,n02823428,beer bottle,44,bottle
+444,n02835271,bicycle-built-for-two,2,bicycle
+466,n02917067,bullet train,7,train
+468,n02930766,cab,3,car
+472,n02951358,canoe,9,boat
+499,n03041632,cleaver,49,knife
+508,n03085013,computer keyboard,76,keyboard
+511,n03100240,convertible,3,car
+530,n03196217,digital clock,85,clock
+532,n03201208,dining table,67,dining table
+544,n03259280,Dutch oven,79,oven
+554,n03344393,fireboat,9,boat
+555,n03345487,fire engine,8,truck
+559,n03376595,folding chair,62,chair
+564,n03388549,four-poster,65,bed
+565,n03393912,freight car,3,car
+569,n03417042,garbage truck,8,truck
+576,n03447447,gondola,9,boat
+609,n03594945,jeep,3,car
+620,n03642806,laptop,73,laptop
+623,n03658185,letter opener,49,knife
+625,n03662601,lifeboat,9,boat
+627,n03670208,limousine,3,car
+651,n03761084,microwave,78,microwave
+654,n03769881,minibus,6,bus
+656,n03770679,minivan,3,car
+659,n03775546,mixing bowl,51,bowl
+661,n03777568,Model T,3,car
+665,n03785016,moped,4,motorcycle
+671,n03792782,mountain bike,2,bicycle
+673,n03793489,mouse,74,mouse
+675,n03796401,moving van,8,truck
+703,n03891251,park bench,15,bench
+704,n03891332,parking meter,14,parking meter
+705,n03895866,passenger car,3,car
+717,n03930630,pickup,8,truck
+720,n03937543,pill bottle,44,bottle
+734,n03977966,police van,8,truck
+737,n03983396,pop bottle,44,bottle
+751,n04037443,racer,3,car
+760,n04070727,refrigerator,82,refrigerator
+765,n04099969,rocking chair,62,chair
+766,n04111531,rotisserie,79,oven
+779,n04146614,school bus,6,bus
+809,n04263257,soup bowl,51,bowl
+814,n04273569,speedboat,9,boat
+817,n04285008,sports car,3,car
+857,n04429376,throne,62,chair
+859,n04442312,toaster,80,toaster
+864,n04461696,tow truck,8,truck
+867,n04467665,trailer truck,8,truck
+874,n04487081,trolleybus,6,bus
+878,n04505470,typewriter keyboard,76,keyboard
+879,n04507155,umbrella,28,umbrella
+883,n04522168,vase,86,vase
+892,n04548280,wall clock,85,clock
+898,n04557648,water bottle,44,bottle
+899,n04560804,water jug,44,bottle
+901,n04579145,whiskey jug,44,bottle
+907,n04591713,wine bottle,44,bottle
+910,n04597913,wooden spoon,50,spoon
+914,n04612504,yawl,9,boat
+920,n06874185,traffic light,10,traffic light
+933,n07697313,cheeseburger,54,sandwich
+934,n07697537,hotdog,54,sandwich
+937,n07714990,broccoli,56,broccoli
+948,n07742313,Granny Smith,53,apple
+950,n07747607,orange,55,orange
+954,n07753592,banana,52,banana
+963,n07873807,pizza,59,pizza
+968,n07930864,cup,47,cup
+981,n09835506,ballplayer,1,person
+982,n10148035,groom,1,person
+983,n10565667,scuba diver,1,person

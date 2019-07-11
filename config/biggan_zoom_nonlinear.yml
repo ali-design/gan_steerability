@@ -1,0 +1,26 @@
+gpu: '0'
+help: null
+learning_rate: 0.0001
+loss: lpips
+model: biggan
+model_save_freq: 400
+models_dir: ./models
+name: null
+num_samples: 20000
+output_dir: ./models/biggan_zoom_NNz_lr0.0001_lpips_eps1.41_nsteps4
+overwrite_config: false
+prefix: null
+suffix: null
+transform: zoom
+walk_type: NNz
+biggan:
+  category: null
+color:
+  channel: null
+nn:
+  eps: 1.41
+  num_steps: 4
+stylegan:
+  dataset: cars
+  latent: w
+  truncation_psi: 1.0
