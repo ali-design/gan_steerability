@@ -1,0 +1,32 @@
+archive
+cache
+models
+resources/*
+!resources/__init__.py
+!resources/deeplab.py
+!resources/download_resources.sh
+!resources/coco_imagenet_intersection.txt
+!graphs/stylegan
+
+# Large data files
+*.log
+*.png
+*.jpg
+*.mp4
+*.p
+*.flo
+*.zip
+*.tar.gz
+
+# Mac OS X hidden files
+.DS_Store
+
+# Vim swap files
+.*.sw?
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints
+

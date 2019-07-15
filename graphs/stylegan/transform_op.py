@@ -81,3 +81,28 @@ class ZoomTransform(ZoomTransform):
     def vis_alphas(self, num_panels):
         return np.power(2., np.linspace(-2, 2, num_panels))
 
+# overwrites Rotate2DTransform in util.transforms
+class Rotate2DTransform(Rotate2DTransform):
+
+    def test_alphas(self):
+        return np.linspace(-45, 45, num_panels)
+
+    def vis_alphas(self, num_panels):
+        # datasets respond differently to each transformation
+        if self.dataset_name == 'cats':
+            return np.linspace(-90, 90, num_panels)
+        else:
+            return np.linspace(-45, 45, num_panels)
+
+# overwrites Rotate3DTransform in util.transforms
+class Rotate3DTransform(Rotate3DTransform):
+
+    def test_alphas(self):
+        return np.linspace(-90, 90, num_panels)
+
+    def vis_alphas(self, num_panels):
+        # datasets respond differently to each transformation
+        if self.dataset_name == 'cats':
+            return np.linspace(-360, 360, num_panels)
+        else:
+            return np.linspace(-90, 90, num_panels)

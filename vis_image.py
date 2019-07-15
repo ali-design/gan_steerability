@@ -12,6 +12,10 @@ if __name__ == '__main__':
                         help='number of samples per category')
     v.parser.add_argument('--num_panels', type=int, default=7,
                         help='number of panels to show')
+    v.parser.add_argument('--max_alpha', type=float,
+                        help='maximum alpha value')
+    v.parser.add_argument('--min_alpha', type=float,
+                        help='minimum alpha value')
     # biggan options
     group = v.parser.add_argument_group('biggan', 'parameters used for biggan model')
     group.add_argument('--category', type=int, default=0, help='categories to visualize')
@@ -69,8 +73,12 @@ if __name__ == '__main__':
             filename = os.path.join(output_dir, 'w{}_seed{}'.format(
                 epochs, noise_seed))
 
+        if opt.max_alpha is not None and opt.min_alpha is not None:
+            filename += '_max{}_min{}'.format(opt.max_alpha, opt.min_alpha)
+
         g.vis_image_batch(graph_inputs_batch, filename, s.start,
-                          num_panels=opt.num_panels)
+                          num_panels=opt.num_panels, max_alpha=opt.max_alpha,
+                          min_alpha=opt.min_alpha)
 
     # add simple html page
     html.make_html(output_dir)

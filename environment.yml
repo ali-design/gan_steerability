@@ -1,4 +1,4 @@
-name: steerable_gan
+name: gan_steerability
 channels:
   - conda-forge
   - mw

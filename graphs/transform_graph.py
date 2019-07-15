@@ -21,8 +21,12 @@ def get_transform_graphs(model):
             op.ColorTransform.__init__(self, channel)
 
         def vis_image_batch(self, graph_inputs, filename, batch_start,
-                            wgt=False, wmask=False, num_panels=7):
-            alphas = self.vis_alphas(num_panels)
+                            wgt=False, wmask=False, num_panels=7,
+                            max_alpha=None, min_alpha=None):
+            if max_alpha is not None and min_alpha is not None:
+                alphas = np.linspace(min_alpha, max_alpha, num_panels)
+            else:
+                alphas = self.vis_alphas(num_panels)
             filename_base = filename
 
             zs_batch = graph_inputs[self.z]
@@ -80,8 +84,12 @@ def get_transform_graphs(model):
             op.ColorLabTransform.__init__(self, channel)
 
         def vis_image_batch(self, graph_inputs, filename, batch_start,
-                            wgt=False, wmask=False, num_panels=7):
-            alphas = self.vis_alphas(num_panels)
+                            wgt=False, wmask=False, num_panels=7,
+                            max_alpha=None, min_alpha=None):
+            if max_alpha is not None and min_alpha is not None:
+                alphas = np.linspace(min_alpha, max_alpha, num_panels)
+            else:
+                alphas = self.vis_alphas(num_panels)
 
             zs_batch = graph_inputs[self.z]
 
@@ -131,12 +139,19 @@ def get_transform_graphs(model):
             op.ZoomTransform.__init__(self)
 
         def vis_image_batch(self, graph_inputs, filename,
-                            batch_start, wgt=False, wmask=False, num_panels=7):
+                            batch_start, wgt=False, wmask=False, num_panels=7,
+                            max_alpha=None, min_alpha=None):
+            if max_alpha is not None and min_alpha is not None:
+                alphas = np.exp(np.linspace(np.log(min_alpha), np.log(max_alpha),
+                                            num_panels))
+                print(alphas)
+            else:
+                alphas = self.vis_alphas(num_panels)
+
 
             zs_batch = graph_inputs[self.z]
 
             filename_base = filename
-            alphas = self.vis_alphas(num_panels)
 
             alphas_to_graph = []
             alphas_to_target = []
@@ -173,9 +188,13 @@ def get_transform_graphs(model):
 
 
         def vis_image_batch(self, graph_inputs,  filename,
-                            batch_start, wgt=False, wmask=False, num_panels=7):
+                            batch_start, wgt=False, wmask=False, num_panels=7,
+                            max_alpha=None, min_alpha=None):
+            if max_alpha is not None and min_alpha is not None:
+                alphas = np.linspace(min_alpha, max_alpha, num_panels)
+            else:
+                alphas = self.vis_alphas(num_panels)
             zs_batch = graph_inputs[self.z]
-            alphas = self.vis_alphas(num_panels)
             alphas_to_graph = []
             alphas_to_target = []
             for a in alphas:
@@ -210,9 +229,13 @@ def get_transform_graphs(model):
             op.ShiftYTransform.__init__(self)
 
         def vis_image_batch(self, graph_inputs,  filename,
-                            batch_start, wgt=False, wmask=False, num_panels=7):
+                            batch_start, wgt=False, wmask=False, num_panels=7,
+                            max_alpha=None, min_alpha=None):
+            if max_alpha is not None and min_alpha is not None:
+                alphas = np.linspace(min_alpha, max_alpha, num_panels)
+            else:
+                alphas = self.vis_alphas(num_panels)
             zs_batch = graph_inputs[self.z]
-            alphas = self.vis_alphas(num_panels)
             alphas_to_graph = []
             alphas_to_target = []
             for a in alphas:
@@ -245,8 +268,12 @@ def get_transform_graphs(model):
             op.Rotate2DTransform.__init__(self)
 
         def vis_image_batch(self, graph_inputs, filename,
-                            batch_start, wgt=False, wmask=False, num_panels=7):
-            alphas = self.vis_alphas(num_panels)
+                            batch_start, wgt=False, wmask=False, num_panels=7,
+                            max_alpha=None, min_alpha=None):
+            if max_alpha is not None and min_alpha is not None:
+                alphas = np.linspace(min_alpha, max_alpha, num_panels)
+            else:
+                alphas = self.vis_alphas(num_panels)
             zs_batch = graph_inputs[self.z]
 
             alphas_to_graph = []
@@ -266,8 +293,12 @@ def get_transform_graphs(model):
             op.Rotate3DTransform.__init__(self)
 
         def vis_image_batch(self, graph_inputs, filename,
-                            batch_start, wgt=False, wmask=False, num_panels=7):
-            alphas = self.vis_alphas(num_panels)
+                            batch_start, wgt=False, wmask=False, num_panels=7,
+                            max_alpha=None, min_alpha=None):
+            if max_alpha is not None and min_alpha is not None:
+                alphas = np.linspace(min_alpha, max_alpha, num_panels)
+            else:
+                alphas = self.vis_alphas(num_panels)
             zs_batch = graph_inputs[self.z]
 
             alphas_to_graph = []

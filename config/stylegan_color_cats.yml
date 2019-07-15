@@ -1,0 +1,26 @@
+gpu: '3'
+help: null
+learning_rate: 0.0001
+loss: l2
+model: stylegan
+model_save_freq: 400
+models_dir: ./models
+name: null
+num_samples: 2000
+output_dir: ./models/stylegan_color_linear_lr0.0001_l2_cats_w
+overwrite_config: false
+prefix: null
+suffix: null
+transform: color
+walk_type: linear
+biggan:
+  category: null
+color:
+  channel: null
+nn:
+  eps: null
+  num_steps: null
+stylegan:
+  dataset: cats
+  latent: w
+  truncation_psi: 1.0

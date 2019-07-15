@@ -1,0 +1,26 @@
+gpu: '2'
+help: null
+learning_rate: 0.001
+loss: lpips
+model: stylegan
+model_save_freq: 400
+models_dir: ./models
+name: null
+num_samples: 10000 # 60000
+output_dir: ./models/stylegan_shiftx_linear_lr0.001_lpips_cars_w
+overwrite_config: false
+prefix: null
+suffix: null
+transform: shiftx
+walk_type: linear
+biggan:
+  category: null
+color:
+  channel: null
+nn:
+  eps: null
+  num_steps: null
+stylegan:
+  dataset: cars
+  latent: w
+  truncation_psi: 1.0

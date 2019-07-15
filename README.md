@@ -1,6 +1,10 @@
-# Steerability GANs
+# GAN steerability
+[Project Page](https://ali-design.github.io/gan_steerability/) |  [Paper]() 
 
-TODO: update with actual title and intro stuff
+<img src='img/teaser.jpeg' width=600>  
+
+On the "steerability" of generative adversarial networks.\
+[Ali Jahanian](http://people.csail.mit.edu/jahanian)\*, [Lucy Chai](http://people.csail.mit.edu/lrchai/)\*, [Phillip Isola](http://web.mit.edu/phillipi/)
 
 ## Prerequisites
 - Linux
@@ -10,7 +14,7 @@ TODO: update with actual title and intro stuff
 ## Setup
 - Clone this repo:
 ```bash
-TODO
+git clone https://github.com/ali-design/gan_steerability.git
 ```
 
 - Install dependencies:
@@ -76,8 +80,8 @@ python vis_image.py \
 - It might be easiest to start here if you want to try your own transformations! The key things to modify are `get_target_np` and to scale alpha appropriately when feeding to graph.
 - If using the provided conda environment, you'll need to add it to the jupyter kernel:
 ```bash
-source activate steerable_gan
-python -m ipykernel install --user --name steerable_gan 
+source activate gan_steerability
+python -m ipykernel install --user --name gan_steerability
 ```
 
 ## Visualizing Distributions

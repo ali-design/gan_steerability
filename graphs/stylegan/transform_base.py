@@ -21,6 +21,7 @@ class TransformGraph():
         assert(loss_type in ['l2', 'lpips']), 'unimplemented loss'
         assert(stylegan_opts.latent in ['z', 'w']), 'unknown latent space'
 
+        self.dataset_name = stylegan_opts.dataset
         self.dataset = constants.net_info[stylegan_opts.dataset]
         self.latent = stylegan_opts.latent
         if hasattr(stylegan_opts, 'truncation_psi'):
