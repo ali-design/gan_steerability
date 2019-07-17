@@ -1,0 +1,26 @@
+gpu: '1'
+help: null
+learning_rate: 0.001
+loss: l2
+model: biggan
+model_save_freq: 400
+models_dir: ./models_pretrained
+name: null
+num_samples: 20000
+output_dir: ./models_pretrained/biggan_shifty_linear_lr0.001_l2
+overwrite_config: false
+prefix: null
+suffix: null
+transform: shifty
+walk_type: linear
+biggan:
+  category: null
+color:
+  channel: null
+nn:
+  eps: null
+  num_steps: null
+stylegan:
+  dataset: cars
+  latent: w
+  truncation_psi: 1.0

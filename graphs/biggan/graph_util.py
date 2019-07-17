@@ -3,7 +3,7 @@ from . import constants
 import numpy as np
 from utils import image
 
-
+# some functions here adapted from: https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/biggan_generation_with_tf_hub.ipynb
 
 def truncated_z_sample(batch_size, truncation=1., seed=None,
         dim_z=constants.DIM_Z):

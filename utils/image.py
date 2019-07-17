@@ -6,6 +6,7 @@ from scipy.stats import truncnorm, gaussian_kde, entropy
 import cv2
 import os
 
+# adapted from: https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/biggan_generation_with_tf_hub.ipynb
 def imgrid(imarray, cols=5, pad=1):
     if imarray.dtype != np.uint8:
         raise ValueError('imgrid input imarray must be uint8')
@@ -30,6 +31,7 @@ def imgrid(imarray, cols=5, pad=1):
         grid = grid[:-pad, :-pad]
     return grid
 
+# adapted from: https://colab.research.google.com/github/tensorflow/hub/blob/master/examples/colab/biggan_generation_with_tf_hub.ipynb
 def imshow(a, format='png', jpeg_fallback=True, filename=None):
     ''' shows image in jupyter notebook '''
     a = np.asarray(a, dtype=np.uint8)

@@ -61,15 +61,17 @@ python train.py --config_file config/biggan_color_linear.yml
 
 ```bash
 python vis_image.py \
-	models/biggan_zoom_linear_lr0.0001_l2/model_20000_final.ckpt \
-	models/biggan_zoom_linear_lr0.0001_l2/opt.yml \
+	models_pretrained/biggan_zoom_linear_lr0.0001_l2/model_20000_final.ckpt \
+	models_pretrained/biggan_zoom_linear_lr0.0001_l2/opt.yml \
 	--gpu 0 --num_samples 50 --noise_seed 20 --truncation 0.5 --category 207
 
 python vis_image.py \
-        models/stylegan_color_linear_lr0.0001_l2_cats_w/model_2000_final.ckpt \
-        models/stylegan_color_linear_lr0.0001_l2_cats_w/opt.yml \
+        models_pretrained/stylegan_color_linear_lr0.0001_l2_cats_w/model_2000_final.ckpt \
+        models_pretrained/stylegan_color_linear_lr0.0001_l2_cats_w/opt.yml \
         --gpu 1 --num_samples 10 --noise_seed 20 
 ```
+
+- We added some pretrained weights in the `./models_pretrained`, but you can also use the models you train yourself.
 
 - By default this will save generated images to `<output_dir>/images` specified in the config yml, unless overwritten with the `--output_dir` option
 

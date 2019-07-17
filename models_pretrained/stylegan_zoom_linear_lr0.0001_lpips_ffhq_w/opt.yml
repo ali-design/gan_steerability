@@ -1,0 +1,26 @@
+gpu: '1'
+help: null
+learning_rate: 0.0001
+loss: lpips
+model: stylegan
+model_save_freq: 400
+models_dir: ./models_pretrained
+name: null
+num_samples: 60000
+output_dir: ./models_pretrained/stylegan_zoom_linear_lr0.0001_lpips_ffhq_w
+overwrite_config: false
+prefix: null
+suffix: null
+transform: zoom
+walk_type: linear
+biggan:
+  category: null
+color:
+  channel: null
+nn:
+  eps: null
+  num_steps: null
+stylegan:
+  dataset: ffhq
+  latent: w
+  truncation_psi: 1.0

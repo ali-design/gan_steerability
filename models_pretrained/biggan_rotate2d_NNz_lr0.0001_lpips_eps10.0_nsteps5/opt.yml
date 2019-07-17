@@ -1,0 +1,26 @@
+gpu: '0'
+help: null
+learning_rate: 0.0001
+loss: lpips
+model: biggan
+model_save_freq: 400
+models_dir: ./models_pretrained
+name: null
+num_samples: 20000
+output_dir: ./models_pretrained/biggan_rotate2d_NNz_lr0.0001_lpips_eps10.0_nsteps5
+overwrite_config: false
+prefix: null
+suffix: null
+transform: rotate2d
+walk_type: NNz
+biggan:
+  category: null
+color:
+  channel: null
+nn:
+  eps: 10.0
+  num_steps: 5
+stylegan:
+  dataset: cars
+  latent: w
+  truncation_psi: 1.0
