@@ -1,5 +1,5 @@
 # GAN steerability
-[Project Page](https://ali-design.github.io/gan_steerability/) |  [Paper]() 
+[Project Page](https://ali-design.github.io/gan_steerability/) |  [Paper](https://arxiv.org/abs/1907.07171) 
 
 <img src='img/teaser.jpeg' width=600>  
 
@@ -87,4 +87,15 @@ python -m ipykernel install --user --name gan_steerability
 ## Visualizing Distributions
 
 These will be coming soon!
+
+### Citation
+If you use this code for your research, please cite our paper:
+```
+@article{gansteerability,
+  title={On the "steerability" of generative adversarial networks},
+  author={Jahanian, Ali and Chai, Lucy and Isola, Phillip},
+  journal={arXiv preprint arXiv:1907.07171},
+  year={2019}
+}
+```
 
