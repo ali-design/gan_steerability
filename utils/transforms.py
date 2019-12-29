@@ -190,7 +190,7 @@ class ZoomTransform():
             alpha_val_for_target = self.eps ** alpha_val
             return alpha_val_for_graph, alpha_val_for_target
 
-    def scale_test_alpha_for_graph(self, alpha, zs_batch):
+    def scale_test_alpha_for_graph(self, alpha, zs_batch, **kwargs):
         ''' map a scalar alpha to the appropriate shape,
             and do the desired transformation '''
         if self.walk_type == 'linear':
@@ -248,7 +248,7 @@ class ShiftTransform():
             alpha_val = np.random.randint(-self.N_f, self.N_f+1)
             return alpha_val+self.N_f, alpha_val * self.eps
 
-    def scale_test_alpha_for_graph(self, alpha, zs_batch):
+    def scale_test_alpha_for_graph(self, alpha, zs_batch, **kwargs):
         ''' map a scalar alpha to the appropriate shape,
             and do the desired transformation '''
         if self.walk_type == 'linear':
@@ -354,7 +354,7 @@ class Rotate2DTransform():
             alpha_val = np.random.randint(-self.N_f, self.N_f + 1)
             return alpha_val + self.N_f, alpha_val * self.eps
 
-    def scale_test_alpha_for_graph(self, alpha, zs_batch):
+    def scale_test_alpha_for_graph(self, alpha, zs_batch, **kwargs):
         ''' map a scalar alpha to the appropriate shape,
             and do the desired transformation '''
         if self.walk_type == 'linear':
@@ -419,7 +419,7 @@ class Rotate3DTransform():
             alpha_val = np.random.randint(-self.N_f, self.N_f + 1)
             return alpha_val + self.N_f, alpha_val * self.eps
 
-    def scale_test_alpha_for_graph(self, alpha, zs_batch):
+    def scale_test_alpha_for_graph(self, alpha, zs_batch, **kwargs):
         ''' map a scalar alpha to the appropriate shape,
             and do the desired transformation '''
         if self.walk_type == 'linear':

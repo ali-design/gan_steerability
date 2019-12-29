@@ -10,5 +10,6 @@ def z_sample(batch_size, seed=0, dim_z=constants.DIM_Z):
 def graph_input(graph, num_samples, seed=0, **kwargs):
     ''' creates z inputs for graph '''
     zs = z_sample(num_samples, seed, graph.dim_z)
-    return {graph.z: zs}
+    labels = np.zeros((num_samples, 0))
+    return {graph.z: zs, graph.labels: labels}
 

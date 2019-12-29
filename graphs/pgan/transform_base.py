@@ -1,43 +1,38 @@
 import tensorflow as tf
-import tensorflow_hub as hub
 import numpy as np
 import os
-import time
+import pickle
 from . import constants
 from .graph_util import *
 from resources import tf_lpips_pkg as lpips_tf
-from resources import get_coco_imagenet_categories
-from utils import image, dataset, util
+from utils import image
 
-module_path = constants.MODULE_PATH
-
+import sys
+sys.path.append('resources/progressive_growing_of_gans')
 
 class TransformGraph():
-    def __init__(self, lr, walk_type, nsliders, loss_type, eps, N_f):
+    def __init__(self, lr, walk_type, nsliders, loss_type, eps, N_f,
+                 pgan_opts):
 
         assert(loss_type in ['l2', 'lpips']), 'unimplemented loss'
 
-        # module inputs
-        module = self.get_biggan_module(module_path)
-        inputs = {k: tf.placeholder(v.dtype, v.get_shape().as_list(), k)
-                  for k, v in module.get_input_info_dict().items()}
-        input_z = inputs['z']
-        input_y = inputs['y']
-        input_trunc = inputs['truncation']
-        dim_z = self.dim_z = input_z.shape.as_list()[1]
-        vocab_size = self.vocab_size = input_y.shape.as_list()[1]
+        self.dataset_name = pgan_opts.dset
+        self.dataset = constants.net_info[pgan_opts.dset]
+
+        tf.InteractiveSession()
+
+        with open(self.dataset['path'], 'rb') as f:
+            _G, _D, Gs = pickle.load(f)
 
         # input placeholders
         Nsliders = nsliders
+        dim_z = self.dim_z = Gs.input_shapes[0][1]
         z = tf.placeholder(tf.float32, shape=(None, dim_z))
-        y = tf.placeholder(tf.float32, shape=(None, vocab_size))
-        truncation = tf.placeholder(tf.float32, shape=None)
+        # generate dummy labels (not used by the official networks)
+        labels = tf.placeholder(tf.float32, shape=(None, Gs.input_shapes[1][1]))
 
-        # original output
-        inputs_orig = {u'y': y,
-                       u'z': z,
-                       u'truncation': truncation}
-        outputs_orig = module(inputs_orig)
+        # original output, NCHW ==> NHWC
+        outputs_orig = tf.transpose(Gs.get_output_for(z, labels), [0, 2, 3, 1])
 
         img_size = self.img_size = outputs_orig.shape[1].value
         num_channels = self.num_channels = outputs_orig.shape[-1].value
@@ -49,41 +44,43 @@ class TransformGraph():
             None, img_size, img_size, num_channels))
 
         # walk pattern
+        scope = 'walk'
         if walk_type == 'NNz':
-            # alpha is the integer number of steps to take
-            alpha = tf.placeholder(tf.int32, shape=())
-            T1 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros', activation=tf.nn.relu)
-            T2 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros')
-            T3 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros', activation=tf.nn.relu)
-            T4 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros')
-            # forward transformation
-            out_f = []
-            z_prev = z
-            z_norm = tf.norm(z, axis=1, keepdims=True)
-            for i in range(1, N_f + 1):
-                z_step = z_prev + T2(T1(z_prev))
-                z_step_norm = tf.norm(z_step, axis=1, keepdims=True)
-                z_step = z_step * z_norm / z_step_norm
-                out_f.append(z_step)
-                z_prev = z_step
+            with tf.name_scope(scope):
+                # alpha is the integer number of steps to take
+                alpha = tf.placeholder(tf.int32, shape=())
+                T1 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros', activation=tf.nn.relu)
+                T2 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros')
+                T3 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros', activation=tf.nn.relu)
+                T4 = tf.keras.layers.Dense(dim_z, input_shape=(None, dim_z), kernel_initializer='RandomNormal', bias_initializer='zeros')
+                # forward transformation
+                out_f = []
+                z_prev = z
+                z_norm = tf.norm(z, axis=1, keepdims=True)
+                for i in range(1, N_f + 1):
+                    z_step = z_prev + T2(T1(z_prev))
+                    z_step_norm = tf.norm(z_step, axis=1, keepdims=True)
+                    z_step = z_step * z_norm / z_step_norm
+                    out_f.append(z_step)
+                    z_prev = z_step
 
-            # reverse transformation
-            out_g = []
-            z_prev = z
-            z_norm = tf.norm(z, axis=1, keepdims=True)
-            for i in range(1, N_f + 1):
-                z_step = z_prev + T4(T3(z_prev))
-                z_step_norm = tf.norm(z_step, axis=1, keepdims=True)
-                z_step = z_step * z_norm / z_step_norm
-                out_g.append(z_step)
-                z_prev = z_step
-            out_g.reverse() # flip the reverse transformation
+                # reverse transformation
+                out_g = []
+                z_prev = z
+                z_norm = tf.norm(z, axis=1, keepdims=True)
+                for i in range(1, N_f + 1):
+                    z_step = z_prev + T4(T3(z_prev))
+                    z_step_norm = tf.norm(z_step, axis=1, keepdims=True)
+                    z_step = z_step * z_norm / z_step_norm
+                    out_g.append(z_step)
+                    z_prev = z_step
+                out_g.reverse() # flip the reverse transformation
 
-            # w has shape (2*N_f + 1, batch_size, dim_z)
-            # elements 0 to N_f are the reverse transformation, in reverse order
-            # elements N_f + 1 to 2*N_f + 1 are the forward transformation
-            # element N_f is no transformation
-            w = tf.stack(out_g+[z]+out_f)
+                # w has shape (2*N_f + 1, batch_size, dim_z)
+                # elements 0 to N_f are the reverse transformation, in reverse order
+                # elements N_f + 1 to 2*N_f + 1 are the forward transformation
+                # element N_f is no transformation
+                w = tf.stack(out_g+[z]+out_f)
         elif walk_type == 'linear':
             # # one w per category
             # w = tf.Variable(np.random.normal(0.0, 0.1, [vocab_size, z.shape[1]]),
@@ -91,7 +88,7 @@ class TransformGraph():
             # one w all category
             alpha = tf.placeholder(tf.float32, shape=(None, Nsliders))
             w = tf.Variable(np.random.normal(0.0, 0.1, [1, z.shape[1], Nsliders]),
-                    name='walk', dtype=np.float32)
+                    name=scope, dtype=np.float32)
             N_f = None
             eps = None
         else:
@@ -108,14 +105,13 @@ class TransformGraph():
             z_new = w[alpha,  :, :]
             # embed()
 
-        transformed_inputs = {u'y': y,
-                              u'z': z_new,
-                              u'truncation': truncation}
-        transformed_output = module(transformed_inputs)
+
+        # NCHW ==> NHWC
+        transformed_output = tf.transpose(Gs.get_output_for(
+            z_new, labels), [0, 2, 3, 1])
 
         # L_2 loss
-        loss = tf.losses.compute_weighted_loss(tf.square(
-            transformed_output-target), weights=mask)
+        loss = tf.losses.compute_weighted_loss(tf.square(transformed_output-target), weights=mask)
         loss_lpips = tf.reduce_mean(lpips_tf.lpips(
             mask*transformed_output, mask*target, model='net-lin', net='alex'))
 
@@ -128,16 +124,15 @@ class TransformGraph():
 
         if loss_type == 'l2':
             train_step = tf.train.AdamOptimizer(lr).minimize(
-                    loss, var_list=tf.trainable_variables(scope=None), name='AdamOpter')
+                    loss, var_list=tf.trainable_variables(scope=scope), name='AdamOpter')
         elif loss_type == 'lpips':
             train_step = tf.train.AdamOptimizer(lr).minimize(
-                    loss_lpips, var_list=tf.trainable_variables(scope=None), name='AdamOpter')
+                    loss_lpips, var_list=tf.trainable_variables(scope=scope), name='AdamOpter')
 
         # set class vars
         self.Nsliders = Nsliders
-        self.y = y
         self.z = z
-        self.truncation = truncation
+        self.labels = labels
         self.alpha = alpha
         self.target = target
         self.mask = mask
@@ -153,37 +148,34 @@ class TransformGraph():
         self.walk_type = walk_type
         self.N_f = N_f # NN num_steps
         self.eps = eps # NN step_size
-
-    def get_biggan_module(self, module_path):
-        tf.reset_default_graph()
-        print('Loading BigGAN module from:', module_path)
-        module = hub.Module(module_path)
-        return module
+        self.scope = scope
 
     def initialize_graph(self):
-        initializer = tf.global_variables_initializer()
-        config = tf.ConfigProto(log_device_placement=False)
-        config.gpu_options.allow_growth = True
-        sess = tf.Session(config=config)
-        #sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
-        sess.run(initializer)
-        saver = tf.train.Saver(tf.trainable_variables(scope=None))
+        sess = tf.get_default_session()
+        global_vars = tf.global_variables()
+        is_not_initialized = sess.run([tf.is_variable_initialized(var) for var in global_vars])
+        not_initialized_vars = [v for (v, f) in zip(global_vars, is_not_initialized) if not f]
+        print([str(i.name) for i in not_initialized_vars]) # only for testing
+        if len(not_initialized_vars):
+            sess.run(tf.variables_initializer(not_initialized_vars))
+        print("trainable vars: {}".format(tf.trainable_variables(scope=self.scope)))
+        saver = tf.train.Saver(tf.trainable_variables(scope=self.scope)) # todo double check
         self.sess = sess
         self.saver = saver
 
     def clip_ims(self, ims):
-        return np.uint8(np.clip(((ims + 1) / 2.0) * 256, 0, 255))
+        return np.clip(np.rint((images + 1.0) / 2.0 * 255.0), 0.0, 255.0).astype(np.uint8)
 
     def apply_alpha(self, graph_inputs, alpha_to_graph):
 
         zs_batch = graph_inputs[self.z]
-        ys_batch = graph_inputs[self.y]
+        labels_batch = graph_inputs[self.labels]
         trunc = graph_inputs[self.truncation]
 
         # print(alpha_to_graph)
         if self.walk_type == 'linear':
-            best_inputs = {self.z: zs_batch, self.y: ys_batch,
-                           self.truncation: trunc, self.alpha: alpha_to_graph}
+            best_inputs = {self.z: zs_batch, self.labels: labels_batch,
+                           self.alpha: alpha_to_graph}
             best_im_out = self.sess.run(self.transformed_output,
                                         best_inputs)
             return best_im_out
@@ -215,28 +207,27 @@ class TransformGraph():
             # already taken n steps at this point, so directly use zs_next
             # without any further modifications: using self.N_f index into w
             # alternatively, could also use self.outputs_orig
-            best_inputs = {self.z: zs_out, self.y: ys_batch,
-                           self.truncation: trunc, self.alpha: self.N_f}
+            best_inputs = {self.z: zs_out, self.labels: labels_batch,
+                           self.alpha: self.N_f}
             best_im_out = self.sess.run(self.transformed_output,
                                         best_inputs)
             return best_im_out
+
 
     def vis_image_batch_alphas(self, graph_inputs, filename,
                                alphas_to_graph, alphas_to_target,
                                batch_start, wgt=False, wmask=False):
 
         zs_batch = graph_inputs[self.z]
-        ys_batch = graph_inputs[self.y]
-        trunc = graph_inputs[self.truncation]
+        labels_batch = graph_inputs[self.labels]
 
         filename_base = filename
         ims_target = []
         ims_transformed = []
         ims_mask = []
         for ag, at in zip(alphas_to_graph, alphas_to_target):
-            input_test = {self.y: ys_batch,
-                          self.z: zs_batch,
-                          self.truncation: trunc}
+            input_test = {self.labels: labels_batch,
+                          self.z: zs_batch}
             out_input_test = self.sess.run(self.outputs_orig, input_test)
 
             target_fn, mask_out = self.get_target_np(out_input_test, at)
@@ -272,7 +263,6 @@ class TransformGraph():
                         batch_start, wgt=False, wmask=False, num_panels=7):
         raise NotImplementedError('Subclass should implement vis_image_batch')
 
-
 class PixelTransform(TransformGraph):
     def __init__(self, *args, **kwargs):
         TransformGraph.__init__(self, *args, **kwargs)
@@ -280,13 +270,10 @@ class PixelTransform(TransformGraph):
     def get_distribution_statistic(self, img, channel=None):
         raise NotImplementedError('Subclass should implement get_distribution_statistic')
 
-    def get_category_list(self):
-        return dataset.get_wid_imagenet()
-
     def get_distribution(self, num_samples, channel=None):
         random_seed = 0
-        trunc = 0.5
-        inputs = graph_input(self, num_samples, seed=random_seed, trunc=trunc)
+        rnd = np.random.RandomState(random_seed)
+        inputs = graph_input(self, num_samples, seed=random_seed)
         batch_size = constants.BATCH_SIZE
         model_samples = []
         for a in self.test_alphas():
@@ -311,27 +298,29 @@ class PixelTransform(TransformGraph):
         return model_samples
 
 
+
 class BboxTransform(TransformGraph):
     def __init__(self, *args, **kwargs):
         TransformGraph.__init__(self, *args, **kwargs)
 
-    def get_distribution_statistic(self, img, *args):
+    def get_distribution_statistic(self, img, channel=None):
         raise NotImplementedError('Subclass should implement get_distribution_statistic')
 
-    def get_category_list(self):
-        return get_coco_imagenet_categories()
-
     def get_distribution(self, num_samples, **kwargs):
-        from utils.detectors import ObjectDetector
-        self.detector = ObjectDetector(self.sess)
+        if 'is_face' in self.dataset:
+            from utils.detectors import FaceDetector
+            self.detector = FaceDetector()
+        elif self.dataset['coco_id'] is not None:
+            from utils.detectors import ObjectDetector
+            self.detector = ObjectDetector(self.sess)
+        else:
+            raise NotImplementedError('Unknown detector option')
+
+        # not used for faces: class_id=None
+        class_id = self.dataset['coco_id']
 
         random_seed = 0
         rnd = np.random.RandomState(random_seed)
-        trunc = 0.5 # for better detections
-        vocab_size = constants.VOCAB_SIZE
-
-        # detect bounding boxes for these categories
-        category_list = self.get_category_list()
 
         model_samples = []
         for a in self.test_alphas():
@@ -340,15 +329,12 @@ class BboxTransform(TransformGraph):
             start = time.time()
             print("Computing attribute statistic for alpha={:0.2f}".format(a))
             while len(distribution) < num_samples:
-                category = rnd.choice(category_list)
-                imagenet_id, imagenet_wid, imagenet_category, coco_id, coco_category  = category.split(',')
-                inputs = graph_input(self, 1, seed=total_count,
-                                     category=int(imagenet_id), trunc=trunc)
+                inputs = graph_input(self, 1, seed=total_count)
                 zs_batch = inputs[self.z]
                 a_graph = self.scale_test_alpha_for_graph(a, zs_batch)
                 ims = self.clip_ims(self.apply_alpha(inputs, a_graph))
                 img = ims[0, :, :, :]
-                img_stat = self.get_distribution_statistic(img, int(coco_id))
+                img_stat = self.get_distribution_statistic(img, class_id)
                 if len(img_stat) == 1:
                     distribution.extend(img_stat)
                 total_count += 1

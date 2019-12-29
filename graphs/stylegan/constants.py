@@ -25,13 +25,15 @@ net_info = dict(
         url='https://drive.google.com/uc?id=1MGqJl28pN4t7SAtSrPdSRJSQJqahkzUf',
         img_size=1024,
         coco_id=None,
-        pascal_id=None
+        pascal_id=None,
+        is_face=True
     ),
     ffhq=dict(
         url='https://drive.google.com/uc?id=1MEGjdvVpUsu1jB4zrXZN7Y4kBBOzizDQ',
         img_size=1024,
         coco_id=None,
-        pascal_id=None
+        pascal_id=None,
+        is_face=True
     ),
 )
 

@@ -14,6 +14,13 @@ class VisOptions():
         parser.add_argument('--noise_seed', type=int, default=0, help="noise seed for z samples")
         parser.add_argument('--output_dir', help="where to save output; if specified, overrides output_dir in config file")
 
+        # biggan options
+        group = parser.add_argument_group('biggan', 'parameters used for biggan model')
+        group.add_argument('--category', type=int, default=0, help='categories to visualize')
+        group.add_argument('--truncation', type=float, default=1.0,
+                            help='truncation for z samples')
+
+
         self.initialized = True
         return self.parser
 

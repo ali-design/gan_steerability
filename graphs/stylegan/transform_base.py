@@ -5,7 +5,8 @@ import pickle
 from . import constants
 from .graph_util import *
 from resources import tf_lpips_pkg as lpips_tf
-from utils import image
+from utils import image, util
+import time
 
 # this is mostly to solve pickle issues
 import sys
@@ -303,26 +304,32 @@ class PixelTransform(TransformGraph):
     def get_distribution_statistic(self, img, channel=None):
         raise NotImplementedError('Subclass should implement get_distribution_statistic')
 
-    # def get_category_list(self):
-    #     return dataset.get_wid_imagenet()
+    def get_distribution(self, num_samples, channel=None):
+        random_seed = 0
+        rnd = np.random.RandomState(random_seed)
+        inputs = graph_input(self, num_samples, seed=random_seed)
+        batch_size = constants.BATCH_SIZE
+        model_samples = []
+        for a in self.test_alphas():
+            distribution = []
+            start = time.time()
+            print("Computing attribute statistic for alpha={:0.2f}".format(a))
+            for batch_num, batch_start in enumerate(range(0, num_samples,
+                                                          batch_size)):
+                s = slice(batch_start, min(num_samples, batch_start + batch_size))
+                inputs_batch = util.batch_input(inputs, s)
+                zs_batch = inputs_batch[self.z]
+                a_graph = self.scale_test_alpha_for_graph(a, zs_batch, channel)
+                ims = self.clip_ims(self.apply_alpha(inputs_batch, a_graph))
+                for img in ims:
+                    img_stat = self.get_distribution_statistic(img, channel)
+                    distribution.extend(img_stat)
+            end = time.time()
+            print("Sampled {} images in {:0.2f} min".format(num_samples, (end-start)/60))
+            model_samples.append(distribution)
 
-    # def distribution_data_per_category(self, num_categories, num_samples,
-    #                                    output_path, channel=None):
-    #     raise NotImplementedError('Coming soon')
-
-
-    # def distribution_model_per_category(self, num_categories, num_samples,
-    #                                     a, output_path, channel=None):
-    #     raise NotImplementedError('Coming soon')
-
-    # def get_distributions_per_category(self, num_categories, num_samples,
-    #                                    output_path, palpha, nalpha, channel=None):
-    #     raise NotImplementedError('Coming soon')
-
-    # def get_distributions_all_categories(self, num_samples, output_path,
-    #                                      channel=None):
-    #     raise NotImplementedError('Coming soon')
-
+        model_samples = np.array(model_samples)
+        return model_samples
 
 class BboxTransform(TransformGraph):
     def __init__(self, *args, **kwargs):
@@ -331,23 +338,42 @@ class BboxTransform(TransformGraph):
     def get_distribution_statistic(self, img, channel=None):
         raise NotImplementedError('Subclass should implement get_distribution_statistic')
 
-    # def get_category_list(self):
-    #     return get_coco_imagenet_categories()
+    def get_distribution(self, num_samples, **kwargs):
+        if 'is_face' in self.dataset:
+            from utils.detectors import FaceDetector
+            self.detector = FaceDetector()
+        elif self.dataset['coco_id'] is not None:
+            from utils.detectors import ObjectDetector
+            self.detector = ObjectDetector(self.sess)
+        else:
+            raise NotImplementedError('Unknown detector option')
 
-    # def distribution_data_per_category(self, num_categories, num_samples,
-    #                                    output_path, channel=None):
-    #     raise NotImplementedError('Coming soon')
+        # not used for faces: class_id=None
+        class_id = self.dataset['coco_id']
 
-    # def distribution_model_per_category(self, num_categories, num_samples,
-    #                                     a, output_path, channel=None):
-    #     raise NotImplementedError('Coming soon')
+        random_seed = 0
+        rnd = np.random.RandomState(random_seed)
 
-    # def get_distributions_per_category(self, num_categories, num_samples,
-    #                                    output_path, palpha, nalpha,
-    #                                    channel=None):
-    #     raise NotImplementedError('Coming soon')
+        model_samples = []
+        for a in self.test_alphas():
+            distribution = []
+            total_count = 0
+            start = time.time()
+            print("Computing attribute statistic for alpha={:0.2f}".format(a))
+            while len(distribution) < num_samples:
+                inputs = graph_input(self, 1, seed=total_count)
+                zs_batch = inputs[self.z]
+                a_graph = self.scale_test_alpha_for_graph(a, zs_batch)
+                ims = self.clip_ims(self.apply_alpha(inputs, a_graph))
+                img = ims[0, :, :, :]
+                img_stat = self.get_distribution_statistic(img, class_id)
+                if len(img_stat) == 1:
+                    distribution.extend(img_stat)
+                total_count += 1
+            end = time.time()
+            print("Sampled {} images to detect {} boxes in {:0.2f} min".format(
+                total_count, num_samples, (end-start)/60))
+            model_samples.append(distribution)
 
-    # def get_distributions_all_categories(self, num_samples, output_path,
-    #                                      channel=None):
-    #     raise NotImplementedError('Coming soon')
-
+        model_samples = np.array(model_samples)
+        return model_samples

@@ -11,7 +11,6 @@ def get_transform_graphs(model):
     transform_op_name = 'graphs.' + model + '.transform_op'
     op = importlib.import_module(transform_op_name)
 
-
     class ColorGraph(base.PixelTransform,op.ColorTransform):
         def __init__(self, lr=0.001, walk_type='NNz', loss='l2', eps=0.1,
                      N_f=5, channel=None, **kwargs):
@@ -66,13 +65,6 @@ def get_transform_graphs(model):
                            np.random.choice(self.img_size, num_pixels), channel]
             return stat
 
-        def get_distributions_per_category(self, num_categories, num_samples,
-                                           output_path, channel=None):
-            palpha = 0.5
-            nalpha = -0.5
-            base.PixelTransform.get_distributions_per_category(
-                num_categories, num_samples, output_path, palpha, nalpha, channel)
-
 
     class ColorLabGraph(base.PixelTransform, op.ColorLabTransform):
 
@@ -100,9 +92,6 @@ def get_transform_graphs(model):
                         or (self.walk_type.startswith('NN') and self.channel is not None
                             and self.channel != channel):
                     continue
-                # # NN walk only adjusts single channel
-                # if self.walk_type == 'NNz' and color in 'ab':
-                #     continue
                 alphas_to_graph = []
                 alphas_to_target = []
                 for a in alphas:
@@ -125,13 +114,6 @@ def get_transform_graphs(model):
                        np.random.choice(self.img_size, num_pixels), channel]
             return stat
 
-        def get_distributions_per_category(self, num_categories, num_samples,
-                                           output_path, channel=None):
-            palpha = 0.5
-            nalpha = -0.5
-            base.PixelTransform.get_distributions_per_category(
-                num_categories, num_samples, output_path, palpha, nalpha, channel)
-
     class ZoomGraph(base.BboxTransform,op.ZoomTransform):
         def __init__(self, lr=0.001, walk_type='NNz', loss='l2', eps=1.41, N_f=4, **kwargs):
             nsliders = 1
@@ -148,7 +130,6 @@ def get_transform_graphs(model):
             else:
                 alphas = self.vis_alphas(num_panels)
 
-
             zs_batch = graph_inputs[self.z]
 
             filename_base = filename
@@ -163,21 +144,14 @@ def get_transform_graphs(model):
                                         alphas_to_graph, alphas_to_target,
                                         batch_start, wgt=False, wmask=False)
 
-        def get_distribution_statistic(self, img, coco_id):
-            box = detect_object(self, img, coco_id)
+        def get_distribution_statistic(self, img, *args):
+            box = self.detector.detect(img, *args)
             if box:
                 (bbox_x, bbox_y, right, bottom) = box
                 bbox_width = int(right) - int(bbox_x)
                 bbox_height = int(bottom) - int(bbox_y)
                 return [bbox_width*bbox_height] # want to return as a list
             return []
-
-        def get_distributions_per_category(self, num_categories, num_samples,
-                                           output_path, channel=None):
-            palpha = 0.25
-            nalpha = 4
-            base.BboxTransform.get_distributions_per_category(
-                num_categories, num_samples, output_path, palpha, nalpha, channel)
 
     class ShiftXGraph(base.BboxTransform, op.ShiftXTransform):
         def __init__(self, lr=0.0001, walk_type='NNz', loss='l2', eps=5, N_f=10, **kwargs):
@@ -205,21 +179,13 @@ def get_transform_graphs(model):
                                         alphas_to_graph, alphas_to_target,
                                         batch_start, wgt=False, wmask=False)
 
-        def get_distribution_statistic(self, img, coco_id):
-            box = detect_object(self, img, coco_id)
+        def get_distribution_statistic(self, img, *args):
+            box = self.detector.detect(img, *args)
             if box:
                 (bbox_x, bbox_y, right, bottom) = box
                 center_x = (int(right) + int(bbox_x))/2
                 return [center_x] # want to return as a list
             return []
-
-        def get_distributions_per_category(self, num_categories, num_samples,
-                                           output_path, channel=None):
-            palpha = 100
-            nalpha = -100
-            base.BboxTransform.get_distributions_per_category(
-                num_categories, num_samples, output_path, palpha, nalpha, channel)
-
 
     class ShiftYGraph(base.BboxTransform, op.ShiftYTransform):
         def __init__(self, lr=0.0001, walk_type='NNz', loss='l2', eps=5, N_f=10, **kwargs):
@@ -246,20 +212,13 @@ def get_transform_graphs(model):
                                         alphas_to_graph, alphas_to_target,
                                         batch_start, wgt=False, wmask=False)
 
-        def get_distribution_statistic(self, img, coco_id):
-            box = detect_object(self, img, coco_id)
+        def get_distribution_statistic(self, img, *args):
+            box = self.detector.detect(img, *args)
             if box:
                 (bbox_x, bbox_y, right, bottom) = box
                 center_y = (int(bottom) + int(bbox_y))/2
                 return [center_y] # want to return as a list
             return []
-
-        def get_distributions_per_category(self, num_categories, num_samples,
-                                           output_path, channel=None):
-            palpha = 100
-            nalpha = -100
-            base.BboxTransform.get_distributions_per_category(
-                num_categories, num_samples, output_path, palpha, nalpha, channel)
 
     class Rotate2DGraph(base.TransformGraph,op.Rotate2DTransform):
         def __init__(self, lr=0.0002, walk_type='NNz', loss='l2', eps=10, N_f=5, **kwargs):

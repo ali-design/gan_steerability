@@ -35,11 +35,11 @@ def graph_input(graph, num_samples, seed=0, category=None, trunc=1.0):
     if category is not None:
         ys = np.array([category] * zs.shape[0])
     else:
-        ys = np.random.randint(0,graph.vocab_size,size=zs.shape[0])
+        rnd = np.random.RandomState(seed)
+        ys = rnd.randint(0,graph.vocab_size,size=zs.shape[0])
 
     ys = one_hot_if_needed(ys, graph.vocab_size)
     return {graph.z: zs, graph.y: ys, graph.truncation: trunc}
-
 
 def imshow_unscaled_G(sess, target, return_im=False):
     np_target = sess.run(target)

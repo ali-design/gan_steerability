@@ -25,4 +25,6 @@ def set_graph_kwargs(opt):
         graph_kwargs['channel'] = opt.color.channel
     if opt.model == 'stylegan':
         graph_kwargs['stylegan_opts'] = opt.stylegan
+    if opt.model == 'pgan':
+        graph_kwargs['pgan_opts'] = opt.pgan
     return graph_kwargs

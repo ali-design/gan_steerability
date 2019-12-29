@@ -48,6 +48,10 @@ class TrainOptions():
         group.add_argument('--latent', default="w", help="which latent space to use; z or w")
         group.add_argument('--truncation_psi', default=1.0, help="truncation for NN walk in w")
 
+        # pgan walk parameters
+        group = parser.add_argument_group('pgan', 'parameters used for pgan walk')
+        group.add_argument('--dset', default="celebahq", help="which dataset to use for pretrained pgan")
+
         self.initialized = True
         return self.parser
 
@@ -173,6 +177,9 @@ class TrainOptions():
                 subopt = opt.stylegan
                 output_dir += '_{}'.format(subopt.dataset)
                 output_dir += '_{}'.format(subopt.latent)
+            elif opt.model == 'pgan':
+                subopt = opt.pgan
+                output_dir += '_{}'.format(subopt.dset)
             if opt.walk_type.startswith('NN'):
                 subopt = opt.nn
                 if subopt.eps:

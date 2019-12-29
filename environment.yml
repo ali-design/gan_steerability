@@ -1,9 +1,10 @@
 name: gan_steerability
 channels:
-  - conda-forge
   - mw
+  - conda-forge
   - defaults
 dependencies:
+  - _libgcc_mutex=0.1=main
   - _tflow_select=2.1.0=gpu
   - absl-py=0.6.1=py36_0
   - asn1crypto=0.24.0=py36_0
@@ -13,9 +14,9 @@ dependencies:
   - blas=1.0=mkl
   - bzip2=1.0.6=h14c3975_5
   - c-ares=1.15.0=h7b6447c_1
-  - ca-certificates=2019.1.23=0
+  - ca-certificates=2019.11.28=hecc5488_0
   - cairo=1.14.12=h8948797_3
-  - certifi=2019.3.9=py36_0
+  - certifi=2019.11.28=py36_0
   - cffi=1.11.5=py36he75722e_1
   - chardet=3.0.4=py36_1
   - cloudpickle=0.6.1=py36_0
@@ -29,13 +30,15 @@ dependencies:
   - dbus=1.13.2=h714fa37_1
   - decorator=4.3.0=py36_0
   - expat=2.2.6=he6710b0_0
-  - ffmpeg=4.0=hcdf2ecd_0
+  - ffmpeg=4.0.2=ha0c5888_2
   - fontconfig=2.13.0=h9420a91_0
   - freeglut=3.0.0=hf484d3e_5
   - freetype=2.9.1=h8a8886c_1
   - gast=0.2.0=py36_0
   - gdk-pixbuf=2.28.2=0
   - glib=2.56.2=hd408876_0
+  - gmp=6.1.2=hf484d3e_1000
+  - gnutls=3.5.19=h2a4e5f8_1
   - graphite2=1.3.12=h23475e2_2
   - grpcio=1.16.1=py36hf8bcb03_1
   - gst-plugins-base=1.14.0=hbbd80ab_1
@@ -63,6 +66,7 @@ dependencies:
   - libgcc-ng=8.2.0=hdf63c60_1
   - libgfortran-ng=7.3.0=hdf63c60_0
   - libglu=9.0.0=hf484d3e_1
+  - libiconv=1.15=h516909a_1005
   - libopencv=3.4.2=hb342d67_1
   - libopus=1.3=h7b6447c_0
   - libpng=1.6.35=hbc83047_0
@@ -80,13 +84,14 @@ dependencies:
   - mkl_fft=1.0.6=py36hd81dba3_0
   - mkl_random=1.0.2=py36hd81dba3_0
   - ncurses=6.1=he6710b0_1
+  - nettle=3.3=0
   - networkx=2.2=py36_1
-  - nltk=3.4=py36_1
   - numpy=1.15.4=py36h7e9f1db_0
   - numpy-base=1.15.4=py36hde5b4d6_0
   - olefile=0.46=py36_0
   - opencv=3.4.2=py36h6fd60c2_1
-  - openssl=1.1.1b=h7b6447c_1
+  - openh264=1.8.0=hdbcaa40_1000
+  - openssl=1.1.1d=h516909a_0
   - pandas=0.24.1=py36he6710b0_0
   - pango=1.22.4=0
   - parso=0.3.1=py36_0
@@ -139,11 +144,16 @@ dependencies:
   - wcwidth=0.1.7=py36_0
   - werkzeug=0.14.1=py36_0
   - wheel=0.32.3=py36_0
+  - x264=1!152.20180717=h14c3975_1001
   - xz=5.2.4=h14c3975_4
   - zeromq=4.2.5=hf484d3e_1
   - zlib=1.2.11=h7b6447c_3
   - pip:
+    - dlib==19.18.0
     - dominate==2.3.5
+    - filelock==3.0.12
+    - gdown==3.8.3
     - oyaml==0.9
-    - pyyaml==5.1.1
-    - tqdm==4.32.2
+    - pyyaml==5.1.2
+    - tqdm==4.38.0
+

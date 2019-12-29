@@ -16,11 +16,6 @@ if __name__ == '__main__':
                         help='maximum alpha value')
     v.parser.add_argument('--min_alpha', type=float,
                         help='minimum alpha value')
-    # biggan options
-    group = v.parser.add_argument_group('biggan', 'parameters used for biggan model')
-    group.add_argument('--category', type=int, default=0, help='categories to visualize')
-    group.add_argument('--truncation', type=float, default=1.0,
-                        help='truncation for z samples')
 
     opt, conf = v.parse()
     os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpu
