@@ -143,7 +143,8 @@ python -m ipykernel install --user --name gan_steerability
 
 ## PyTorch
 
-- You can find a google colab notebook with pytorch implementation on BigGAN [here](https://colab.research.google.com/drive/1WRcCnYX_fjN3hp5-DXhGquXHs44hgVV6)
+- You can find a google colab notebook implementation [here](https://colab.research.google.com/drive/1kn6yG8PqD1U2bUcy32V1iAVjzlcQWcG3). This uses a pytorch port of the tensorflow BigGAN-deep weights.
+- An earlier version is on the pytorch BigGAN model is [here](https://colab.research.google.com/drive/1WRcCnYX_fjN3hp5-DXhGquXHs44hgVV6).
 
 ### Citation
 If you use this code for your research, please cite our paper:
