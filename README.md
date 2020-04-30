@@ -162,7 +162,7 @@ If you use this code for your research, please cite our paper:
 @inproceedings{
   title={On the "steerability" of generative adversarial networks},
   author={Jahanian, Ali and Chai, Lucy and Isola, Phillip},
-  booktitle={Interantiaon Conference on Learning Representations},
+  booktitle={International Conference on Learning Representations},
   year={2020}
  }
 ```
