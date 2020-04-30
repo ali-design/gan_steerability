@@ -148,6 +148,7 @@ python -m ipykernel install --user --name gan_steerability
 
 ### Citation
 If you use this code for your research, please cite our paper:
+<!-- 
 ```
 @article{gansteerability,
   title={On the "steerability" of generative adversarial networks},
@@ -155,6 +156,15 @@ If you use this code for your research, please cite our paper:
   journal={arXiv preprint arXiv:1907.07171},
   year={2019}
 }
+```
+-->
+```
+@inproceedings{
+  title={On the "steerability" of generative adversarial networks},
+  author={Jahanian, Ali and Chai, Lucy and Isola, Phillip},
+  booktitle={Interantiaon Conference on Learning Representations},
+  year={2020}
+ }
 ```
 
 
