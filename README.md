@@ -159,7 +159,7 @@ If you use this code for your research, please cite our paper:
 ```
 -->
 ```
-@inproceedings{
+@inproceedings{gansteerability,
   title={On the "steerability" of generative adversarial networks},
   author={Jahanian, Ali and Chai, Lucy and Isola, Phillip},
   booktitle={International Conference on Learning Representations},
